@@ -33,7 +33,7 @@ async function postData(Kurl='', data={}) {
 //            'client_secret': 'bvh4syksl7mjz28ookoowgysdi8on4',
 //            'grant_type': 'client_credentials',
         },
-        */
+*/        
         redirect: 'follow',
         //referrerPolicy: 'unsafe-url',
         body: JSON.stringify(data)
@@ -93,15 +93,14 @@ function formatQueryParams(params) {
 
 function displayResults(responseJson) {
 
-  console.log(responseJson);
+  
   $('#youtube-results-list').empty();
 
   for (let i = 0; i < responseJson.items.length; i++){
-
     $('#youtube-results-list').append(
       `<li><h3>${responseJson.items[i].snippet.title}</h3>
       <p>${responseJson.items[i].snippet.description}</p>
-      <img src='${responseJson.items[i].snippet.thumbnails.default.url}'>
+      <a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target="_blank"><img src='${responseJson.items[i].snippet.thumbnails.default.url}'></a>
       <p><a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target="_blank">Watch Here!</a>
       </li>`
     )};
@@ -120,7 +119,7 @@ function getYouTubeVideos(query, maxResults=20) {
   const queryString = formatQueryParams(params)
   const url = searchURL + '?' + queryString;
 
-  console.log(url);
+  
 
   fetch(url)
     .then(response => {
@@ -134,19 +133,22 @@ function getYouTubeVideos(query, maxResults=20) {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
 }
-/*
+
 function displayPrices(responseJson){
-    console.log(responseJson);
+    
     $('#priceCharting-results-list').empty();
-
     for (let i = 0; i < responseJson.products.length; i++){
-
+      let loosePrice = (responseJson.products[i]["loose-price"])/100;
+      loosePrice = loosePrice.toFixed(2);
+      let newPrice = (responseJson.products[i]["new-price"])/100;
+      newPrice = newPrice.toFixed(2);
+     // let productName = responseJson.products[i].product-name;
       $('#priceCharting-results-list').append(
-        `<li><h3>${responseJson.products[i].product-name}</h3>
-        <h4>${responseJson.products[i].console-name}</h4>
-        <p>Used price for this game is around ${responseJson.products[i].loose-price}.</p>
-        <p>New price for this game is around ${responseJson.products[i].new-price}.</p>
-        <p><a href='https://www.pricecharting.com/game/${responseJson.products[i].id}>Check Detailed Pricing Here</a>
+        `<li><h3>${responseJson.products[i]["product-name"]}</h3>
+        <h4>${responseJson.products[i]["console-name"]}</h4>
+        <p>Used price for this game is around $${loosePrice}.</p>
+        <p>New price for this game is around $${newPrice}.</p>
+        <p><a href='https://www.pricecharting.com/game/${responseJson.products[i].id}'>Check Detailed Pricing Here</a></p>
         </li>`
       )};
 
@@ -155,7 +157,7 @@ function displayPrices(responseJson){
 
 function getPrices(query){
     const pURL = purl + "&q=" + query;
-    console.log(pURL)
+    
     fetch(pURL)
     .then(response => {
         if (response.ok) {
@@ -167,7 +169,7 @@ function getPrices(query){
 /*    .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
     }); */
-//}
+}
 
 function watchForm() {
   $('form').submit(event => {
@@ -176,7 +178,7 @@ function watchForm() {
     postData(kURL, kOptions);
 //    getTwitchStreams(searchTerm);
     getYouTubeVideos(searchTerm);
-//    getPrices(searchTerm);
+    getPrices(searchTerm);
   });
 }
 
