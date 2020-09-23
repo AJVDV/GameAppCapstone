@@ -38,8 +38,9 @@ async function postData(Kurl='', data={}) {
         //referrerPolicy: 'unsafe-url',
         body: JSON.stringify(data)
     });
-    console.log(response.json());
-    return response.json();
+    const OathVar = response.json();
+    console.log(OathVar);
+
 }
 
 function formatRequestParams(params) {
@@ -47,12 +48,13 @@ function formatRequestParams(params) {
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
   return queryItems.join('&');
 }
-/*
+
 function getTwitchStreams(query) {
 
   const params = {
-//    'client-id': clientID,
+    'client-id': clientID,
     'query': query,
+    'Authorization': 'Bearer wk7c7ykwizs330wk0emyth8hi0tajw'
   };
   const queryString = formatQueryParams(params)
   const turl = searchTURL + '?' + queryString;
@@ -66,20 +68,19 @@ function getTwitchStreams(query) {
   };
 
   fetch(turl, options)
-    .then(response => response.json())
-    .then(data=>console.log(data))
+    .then(response => {
       if (response.ok) {
         return response.json();
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => displayResults(responseJson))
+    .then(responseJson => console.log(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
     
 }
-*/
+
 
 const apiKey = 'AIzaSyD4uHrKTK0XO3adEnHinC-dx53SNTpF8bM'; 
 const searchURL = 'https://www.googleapis.com/youtube/v3/search';
@@ -166,9 +167,9 @@ function getPrices(query){
         throw new Error(response.statusText);
     })
     .then(responseJson => displayPrices(responseJson))
-/*    .catch(err => {
+    .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
-    }); */
+    }); 
 }
 
 function watchForm() {
