@@ -26,14 +26,14 @@ async function postData(Kurl='', data={}) {
         mode: 'cors',
 //        cache: 'default',
 //        credentials: 'same-origin', 
-/*
+
         headers: {
             'Content-Type': 'application/json',
 //            'client_id' : '9zu3ty8lepetaysc7nn0rkpgdxpgep',
 //            'client_secret': 'bvh4syksl7mjz28ookoowgysdi8on4',
 //            'grant_type': 'client_credentials',
         },
-*/        
+       
         redirect: 'follow',
         //referrerPolicy: 'unsafe-url',
         body: JSON.stringify(data)
