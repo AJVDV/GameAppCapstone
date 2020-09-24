@@ -23,7 +23,7 @@ console.log(kURL);
 async function postData(Kurl='', data={}) {
     const response = await fetch(Kurl, {
         method : 'POST', 
-        mode: 'cors',
+        mode: 'same-origin',
 //        cache: 'default',
 //        credentials: 'same-origin', 
 /*
