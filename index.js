@@ -2,10 +2,11 @@
 
 // put your own value below!
 const purl = "https://www.pricecharting.com/api/products?t=bb7f1cc220fb2a975df7cb4423efe9fc97ff80bb"
-
+//const OathKey = "";
 const clientID = '9zu3ty8lepetaysc7nn0rkpgdxpgep'; 
 const searchTURL = 'https://api.twitch.tv/helix/games';
-const kurl = 'https://id.twitch.tv/oauth2/token'
+const searchTurl = 'https://api.twitch.tv/helix/streams';
+const kurl = 'https://id.twitch.tv/oauth2/token';
 const kOptions = {
     'client_id' : "9zu3ty8lepetaysc7nn0rkpgdxpgep",
     'client_secret' : "bvh4syksl7mjz28ookoowgysdi8on4",
@@ -24,7 +25,7 @@ async function postData(Kurl='', data={}) {
     const response = await fetch(Kurl, {
         method : 'POST', 
         mode: 'cors',
-//        cache: 'default',
+        cache: 'default',
 //        credentials: 'same-origin', 
 /*
         headers: {
@@ -37,19 +38,34 @@ async function postData(Kurl='', data={}) {
         redirect: 'follow',
         //referrerPolicy: 'unsafe-url',
         body: JSON.stringify(data)
+        
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    })
+    .then(responseJson => getKey(responseJson))
+    .catch(err => {
+      $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
-    const OathVar = response.json();
-    console.log(OathVar);
-
 }
 
+function getKey(responseJson) {
+  const searchTerm = $('#js-search-term').val();
+  let OathKey = responseJson.access_token;
+  console.log(OathKey);
+//  return OathKey;
+  getTwitchGame(searchTerm, OathKey)
+}
 
-function getTwitchStreams(query) {
+function getTwitchGame(searchTerm, OathKey) {
 
   const params = {
     'client-id': clientID,
-    'query': query,
-    'Authorization': 'Bearer wk7c7ykwizs330wk0emyth8hi0tajw'
+    'name': searchTerm,
+    'Authorization': `Bearer ${OathKey}`
   };
   const queryString = formatQueryParams(params)
   const turl = searchTURL + '?' + queryString;
@@ -58,7 +74,7 @@ function getTwitchStreams(query) {
   const options = {
       headers: {
           'client-id': "9zu3ty8lepetaysc7nn0rkpgdxpgep",
-          Authorization: `Bearer bvh4syksl7mjz28ookoowgysdi8on4`
+          Authorization: `Bearer ${OathKey}`
       }
   };
 
@@ -69,13 +85,65 @@ function getTwitchStreams(query) {
       }
       throw new Error(response.statusText);
     })
-    .then(responseJson => console.log(responseJson))
+    .then(responseJson => pullGameId(responseJson, OathKey))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
     
 }
 
+function pullGameId(responseJson, OathKey){
+  const gameId = responseJson.data[0].id;
+  console.log(gameId);
+  getTwitchStreams(gameId, OathKey);
+}
+
+function getTwitchStreams(gameId, OathKey) {
+
+  const params = {
+    'client-id': clientID,
+    'game_id': gameId,
+    'Authorization': `Bearer ${OathKey}`
+  };
+  const queryString = formatQueryParams(params)
+  const tURL = searchTurl + '?' + queryString;
+
+  console.log(tURL);
+  const options = {
+      headers: {
+          'client-id': "9zu3ty8lepetaysc7nn0rkpgdxpgep",
+          Authorization: `Bearer ${OathKey}`
+      }
+  };
+
+  fetch(tURL, options)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    })
+    .then(responseJson => displayStreams(responseJson))
+    .catch(err => {
+      $('#js-error-message').text(`Something went wrong: ${err.message}`);
+    });
+    
+}
+
+function displayStreams(responseJson) {
+  console.log(responseJson);
+  $('#twitch-results-list').empty();
+
+  for (let i = 0; i < responseJson.data.length; i++){
+    $('#twitch-results-list').append(
+      `<li><h3>${responseJson.data[i].title}</h3>
+      <p>${responseJson.data[i].user_name}</p>
+      <p><a href='https://www.twitch.tv/${responseJson.data[i].user_name}' target="_blank">Watch Here!</a>
+      </li>`
+    )};
+  
+  $('#twitch-results').removeClass('hidden');
+};
 
 const apiKey = 'AIzaSyD4uHrKTK0XO3adEnHinC-dx53SNTpF8bM'; 
 const searchURL = 'https://www.googleapis.com/youtube/v3/search';
