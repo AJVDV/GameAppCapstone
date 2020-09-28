@@ -1,8 +1,7 @@
 'use strict';
 
-// put your own value below!
+//various variables are defined here to be used throughout this code.
 const purl = "https://www.pricecharting.com/api/products?t=bb7f1cc220fb2a975df7cb4423efe9fc97ff80bb"
-//const OathKey = "";
 const clientID = '9zu3ty8lepetaysc7nn0rkpgdxpgep'; 
 const searchTURL = 'https://api.twitch.tv/helix/games';
 const searchTurl = 'https://api.twitch.tv/helix/streams';
@@ -12,6 +11,8 @@ const kOptions = {
     'client_secret' : "bvh4syksl7mjz28ookoowgysdi8on4",
     'grant_type' : "client_credentials"
 }
+
+//this formats some header definitions for retrieving the twitch OathKey, then stringifys the total url
 function formatRequestParams(kOptions) {
     const optionItems = Object.keys(kOptions)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(kOptions[key])}`)
@@ -21,22 +22,13 @@ const optionsString = formatRequestParams(kOptions);
 const kURL = kurl + '?' + optionsString;
 console.log(kURL);
 
+//this code is a specific post request that allows the retrieval of the OathKey for twitch API
 async function postData(Kurl='', data={}) {
     const response = await fetch(Kurl, {
         method : 'POST', 
         mode: 'cors',
-        cache: 'default',
-//        credentials: 'same-origin', 
-/*
-        headers: {
-            'Content-Type': 'application/json',
-//            'client_id' : '9zu3ty8lepetaysc7nn0rkpgdxpgep',
-//            'client_secret': 'bvh4syksl7mjz28ookoowgysdi8on4',
-//            'grant_type': 'client_credentials',
-        },
-*/       
+        cache: 'default',       
         redirect: 'follow',
-        //referrerPolicy: 'unsafe-url',
         body: JSON.stringify(data)
         
     })
@@ -52,14 +44,15 @@ async function postData(Kurl='', data={}) {
     });
 }
 
+//this isolates the Key from the rest of the response for use later
 function getKey(responseJson) {
   const searchTerm = $('#js-search-term').val();
   let OathKey = responseJson.access_token;
   console.log(OathKey);
-//  return OathKey;
   getTwitchGame(searchTerm, OathKey)
 }
 
+//this initiates the twitch API to find the Game Id based on the game name entered and saves it for another api request
 function getTwitchGame(searchTerm, OathKey) {
 
   const params = {
@@ -92,12 +85,14 @@ function getTwitchGame(searchTerm, OathKey) {
     
 }
 
+//this portion of the code isolates the game ID from the response for use in the next function
 function pullGameId(responseJson, OathKey){
   const gameId = responseJson.data[0].id;
   console.log(gameId);
   getTwitchStreams(gameId, OathKey);
 }
 
+//this takes the previously retrieved game ID and finds the top streams that match
 function getTwitchStreams(gameId, OathKey) {
 
   const params = {
@@ -130,6 +125,7 @@ function getTwitchStreams(gameId, OathKey) {
     
 }
 
+//takes the twitch api results and creates a readable/clickable set of results for the user to view
 function displayStreams(responseJson) {
   console.log(responseJson);
   $('#twitch-results-list').empty();
@@ -148,13 +144,14 @@ function displayStreams(responseJson) {
 const apiKey = 'AIzaSyD4uHrKTK0XO3adEnHinC-dx53SNTpF8bM'; 
 const searchURL = 'https://www.googleapis.com/youtube/v3/search';
 
-
+//this formats the parameters for youtube videos to conduct the api search
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
   return queryItems.join('&');
 }
 
+//takes the youtube api response and presents it in a viewable/clickable set of items
 function displayResults(responseJson) {
 
   
@@ -172,6 +169,7 @@ function displayResults(responseJson) {
   $('#youtube-results').removeClass('hidden');
 };
 
+//this code makes the request to youtube api
 function getYouTubeVideos(query, maxResults=20) {
   const params = {
     key: apiKey,
@@ -198,6 +196,7 @@ function getYouTubeVideos(query, maxResults=20) {
     });
 }
 
+//this code displays a readable set of items based on the request to the PriceChartingAPI
 function displayPrices(responseJson){
     
     $('#priceCharting-results-list').empty();
@@ -206,7 +205,6 @@ function displayPrices(responseJson){
       loosePrice = loosePrice.toFixed(2);
       let newPrice = (responseJson.products[i]["new-price"])/100;
       newPrice = newPrice.toFixed(2);
-     // let productName = responseJson.products[i].product-name;
       $('#priceCharting-results-list').append(
         `<li><h3>${responseJson.products[i]["product-name"]}</h3>
         <h4>${responseJson.products[i]["console-name"]}</h4>
@@ -219,6 +217,7 @@ function displayPrices(responseJson){
     $('#priceCharting-results').removeClass('hidden');
 }
 
+//this set of code makes the api request to PriceCharting to retrieve info based on game name.
 function getPrices(query){
     const pURL = purl + "&q=" + query;
     
@@ -235,12 +234,13 @@ function getPrices(query){
     }); 
 }
 
+
+//standard watchform function to initiate load, and to start all necessary functions on submission
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
     postData(kURL, kOptions);
-//    getTwitchStreams(searchTerm);
     getYouTubeVideos(searchTerm);
     getPrices(searchTerm);
   });
