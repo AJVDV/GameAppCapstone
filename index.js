@@ -20,7 +20,6 @@ function formatRequestParams(kOptions) {
 }
 const optionsString = formatRequestParams(kOptions);
 const kURL = kurl + '?' + optionsString;
-console.log(kURL);
 
 //this code is a specific post request that allows the retrieval of the OathKey for twitch API
 async function postData(Kurl='', data={}) {
@@ -48,7 +47,6 @@ async function postData(Kurl='', data={}) {
 function getKey(responseJson) {
   const searchTerm = $('#js-search-term').val();
   let OathKey = responseJson.access_token;
-  console.log(OathKey);
   getTwitchGame(searchTerm, OathKey)
 }
 
@@ -63,7 +61,6 @@ function getTwitchGame(searchTerm, OathKey) {
   const queryString = formatQueryParams(params)
   const turl = searchTURL + '?' + queryString;
 
-  console.log(turl);
   const options = {
       headers: {
           'client-id': "9zu3ty8lepetaysc7nn0rkpgdxpgep",
@@ -88,7 +85,6 @@ function getTwitchGame(searchTerm, OathKey) {
 //this portion of the code isolates the game ID from the response for use in the next function
 function pullGameId(responseJson, OathKey){
   const gameId = responseJson.data[0].id;
-  console.log(gameId);
   getTwitchStreams(gameId, OathKey);
 }
 
@@ -103,7 +99,6 @@ function getTwitchStreams(gameId, OathKey) {
   const queryString = formatQueryParams(params)
   const tURL = searchTurl + '?' + queryString;
 
-  console.log(tURL);
   const options = {
       headers: {
           'client-id': "9zu3ty8lepetaysc7nn0rkpgdxpgep",
@@ -127,21 +122,22 @@ function getTwitchStreams(gameId, OathKey) {
 
 //takes the twitch api results and creates a readable/clickable set of results for the user to view
 function displayStreams(responseJson) {
-  console.log(responseJson);
   $('#twitch-results-list').empty();
 
   for (let i = 0; i < responseJson.data.length; i++){
+    let thumbnail = responseJson.data[i].thumbnail_url.replace('{width}', '225');
+    thumbnail = thumbnail.replace('{height}', '150');
     $('#twitch-results-list').append(
       `<li><h3>${responseJson.data[i].title}</h3>
       <p>${responseJson.data[i].user_name}</p>
-      <p><a href='https://www.twitch.tv/${responseJson.data[i].user_name}' target="_blank">Watch Here!</a>
+      <p><a href='https://www.twitch.tv/${responseJson.data[i].user_name}' target="_blank">Watch Here!</a></p>
+      <a href='https://www.twitch.tv/${responseJson.data[i].user_name}'  target="_blank"><img src="${thumbnail}" alt="twitch thumbnail here"></a>
       </li>`
     )};
-  
   $('#twitch-results').removeClass('hidden');
 };
 
-const apiKey = 'AIzaSyD4uHrKTK0XO3adEnHinC-dx53SNTpF8bM'; 
+const apiKey = 'AIzaSyBVXbhD9fgVMUbCwEHCaglJNVoOPHrcIS8'; 
 const searchURL = 'https://www.googleapis.com/youtube/v3/search';
 
 //this formats the parameters for youtube videos to conduct the api search
@@ -178,8 +174,9 @@ function getYouTubeVideos(query, maxResults=20) {
     maxResults,
     type: 'video'
   };
-  const queryString = formatQueryParams(params)
+  const queryString = formatQueryParams(params);
   const url = searchURL + '?' + queryString;
+  console.log(url);
 
   
 
