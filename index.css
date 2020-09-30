@@ -1,9 +1,10 @@
-* {
-    box-sizing: border-box;
-  }
+
+
   
   body {
     font-family: 'Roboto', sans-serif;
+    text-align: center;
+    background-color: #EFEFD0;
   }
   
   button, input[type="text"] {
@@ -16,7 +17,7 @@
   
   .group{
     display: flex;
-    flex-direction: row;
+    flex-direction: Column;
     margin-bottom: 50px;
   }
   
@@ -26,15 +27,84 @@
     margin: 10px;
   }
 
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-  }
   
   .error-message {
-      color: red;
+      color: #FF6B35;
   }
   
   .hidden {
     display: none;
+  }
+
+  ul {
+    background: #004E89;
+    padding: 35px;
+    border-radius: 25px;
+    list-style-type: none;
+  }
+
+  ul li {
+  background: #1a659E;
+  border-radius: 25px;
+  padding: 25px;
+  margin-bottom: 10px;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: #F7C59F;
+  border: none;
+  color: #FF6B35;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 25px;
+  box-shadow: 2px 2px 5px #1a659E;
+}
+
+input[type=text] {
+  background-color: #F7C59F;
+  color: #1A659E;
+  border-radius: 10px
+}
+
+label {
+  color: #1a659E;
+}
+p {
+  color: #F7C59F;
+}
+
+form p {
+  color: #004E89;
+}
+h1 {
+  color: #FF6B35;
+}
+
+h2 {
+  color: #004E89;
+  text-shadow: 2px 2px 5px #1a659E;
+}
+
+h3 {
+  color: #FF6B35;
+}
+
+h4 {
+  color: #F7C59F;
+}
+  @media all and (min-width: 800px) {
+    .group{
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 50px;
+    }
+    
+    
+    .item{
+      flex: 1;
+      margin: 10px;
+    }
+  
   }

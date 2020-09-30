@@ -130,7 +130,6 @@ function displayStreams(responseJson) {
     $('#twitch-results-list').append(
       `<li><h3>${responseJson.data[i].title}</h3>
       <p>${responseJson.data[i].user_name}</p>
-      <p><a href='https://www.twitch.tv/${responseJson.data[i].user_name}' target="_blank">Watch Here!</a></p>
       <a href='https://www.twitch.tv/${responseJson.data[i].user_name}'  target="_blank"><img src="${thumbnail}" alt="twitch thumbnail here"></a>
       </li>`
     )};
@@ -158,7 +157,6 @@ function displayResults(responseJson) {
       `<li><h3>${responseJson.items[i].snippet.title}</h3>
       <p>${responseJson.items[i].snippet.description}</p>
       <a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target="_blank"><img src='${responseJson.items[i].snippet.thumbnails.default.url}'></a>
-      <p><a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target="_blank">Watch Here!</a>
       </li>`
     )};
   
@@ -238,7 +236,7 @@ function watchForm() {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
     postData(kURL, kOptions);
-    getYouTubeVideos(searchTerm);
+//    getYouTubeVideos(searchTerm);
     getPrices(searchTerm);
   });
 }
