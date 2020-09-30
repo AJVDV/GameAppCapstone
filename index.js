@@ -236,7 +236,7 @@ function watchForm() {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
     postData(kURL, kOptions);
-//    getYouTubeVideos(searchTerm);
+    getYouTubeVideos(searchTerm);
     getPrices(searchTerm);
   });
 }
