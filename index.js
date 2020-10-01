@@ -78,6 +78,7 @@ function getTwitchGame(searchTerm, OathKey) {
     .then(responseJson => pullGameId(responseJson, OathKey))
     .catch(err => {
       $('#js-twitch-error-message').text(`There were no results on Twitch, there may not be any live streams of this game currently, or the name may be mistyped`);
+//these last few lines were added so that when doing a new search if it has no twitch results it will hide the column again.      
       if (twitchResults.classList.contains('hidden') === false) {
         console.log(twitchResults.classList.contains('hidden'));
         $(twitchResults).addClass('hidden');
@@ -204,6 +205,7 @@ function displayPrices(responseJson){
     
     $('#js-priceCharting-error-message').empty();
     $('#priceCharting-results-list').empty();
+//another few lines of code here just to make sure if it errors a proper message appears.    
     if (responseJson.products.length === 0) {
       $('#js-priceCharting-error-message').text(`There were no PriceCharting results, likely there are no physical copies of this game, or the name was mistyped.`);
     } else {
@@ -253,6 +255,7 @@ function watchForm() {
     $('#search-term').removeClass('centered');
     postData(kURL, kOptions);
     getYouTubeVideos(searchTerm);
+//not entirely sure why, but the pricecharting error code was fussy, and this is the only place I could get the code to reliably rehide the column if a new search was entered.
     if (priceChartingResults.classList.contains('hidden') === false) {
       console.log(priceChartingResults.classList.contains('hidden'));
       $(priceChartingResults).addClass('hidden');
