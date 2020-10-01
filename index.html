@@ -10,17 +10,41 @@
 </head>
 <body>
     <div class="container">
-        
-
+        <header id="header">
+            </div>
         <form id="search-term" class ='textarea centered'>
             <h1>Video Game Quick Reference</h1>
             <p>Use this convenient app to check the most popular streams, recent videos, and prices for physical copies of games!</p>
             <p>Just type in the full name of your game, and hit go.</p>
-            <p>If you are on mobile, be sure to scroll down to see Youtube, Twitch, and PriceCharting results</p>
-            <label for="search-term">Game Name Here</label>
+            <p>If you are on mobile, be sure to scroll down to see Youtube, Twitch, and PriceCharting.</p>
+            <p>Alternatively you can use the navigation links at the top once you've entered a search.</p>
+            <label for="js-search-term">Game Name Here</label>
             <input type="text" name="search-term" id="js-search-term" required>
             <input type="submit" value="Go!">
         </form>
+        <nav>
+            <section>
+              <div class="group">
+                <div id="topNav" class="item hidden">
+                  <a href="#header">Top</a>
+                </div>
+                <div id="youtubeNav" class="item hidden">
+                  <a href="#youtubeResults">Youtube results</a>
+                </div>
+                <div id="twitchNav" class="item hidden">
+                  <a href="#twitchResults">Twitch Stream results</a>
+                </div>
+                <div id="priceChartingNav" class="item hidden">
+                  <a href="#priceChartingResults">PriceCharting results</a>
+                </div>
+                <div id="bottomNav" class="item hidden">
+                  <a href="#footer">Bottom</a>
+                </div>
+              </div>
+            </section>
+          </nav>
+        </header>
+        <main>
         <p id="js-youtube-error-message" class="error-message"></p>
         <p id="js-twitch-error-message" class="error-message"></p>
         <p id="js-priceCharting-error-message" class="error-message"></p>
@@ -30,6 +54,7 @@
                     <h2>Youtube Results</h2>
                     <ul id="youtube-results-list">
                     </ul>
+                    <a href='#header'>Return to the top.</a>
                 </section>
             </div>
             <div id="twitchResults" class="twitch item hidden">
@@ -37,6 +62,7 @@
                     <h2>Twitch results</h2>
                     <ul id="twitch-results-list">
                     </ul>
+                    <a href='#header'>Return to the top.</a>
                 </section>
             </div>
             <div id="priceChartingResults" class="priceCharting item hidden">
@@ -44,9 +70,14 @@
                     <h2>PriceCharting Results</h2>
                     <ul id="priceCharting-results-list">
                     </ul>
+                    <a href='#header'>Return to the top.</a>
                 </section>
             </div>
         </div>
+    </main>
+    <footer id="footer" class="hidden">
+        <a href='#header'>Return to the top.</a>
+    </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="index.js"></script>

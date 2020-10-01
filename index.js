@@ -80,7 +80,6 @@ function getTwitchGame(searchTerm, OathKey) {
       $('#js-twitch-error-message').text(`There were no results on Twitch, there may not be any live streams of this game currently, or the name may be mistyped`);
 //these last few lines were added so that when doing a new search if it has no twitch results it will hide the column again.      
       if (twitchResults.classList.contains('hidden') === false) {
-        console.log(twitchResults.classList.contains('hidden'));
         $(twitchResults).addClass('hidden');
       };
     });
@@ -89,9 +88,7 @@ function getTwitchGame(searchTerm, OathKey) {
 
 //this portion of the code isolates the game ID from the response for use in the next function
 function pullGameId(responseJson, OathKey){
-  console.log(responseJson);
   const gameId = responseJson.data[0].id;
-  console.log(gameId);
   getTwitchStreams(gameId, OathKey);
 }
 
@@ -137,10 +134,11 @@ function displayStreams(responseJson) {
     $('#twitch-results-list').append(
       `<li class='wordwrap'><h3>${responseJson.data[i].title}</h3>
       <p>${responseJson.data[i].user_name}</p>
-      <a href='https://www.twitch.tv/${responseJson.data[i].user_name}'  target="_blank"><img src="${thumbnail}" alt="twitch thumbnail here"></a>
+      <a href='https://www.twitch.tv/${responseJson.data[i].user_name}'  target="_blank"><img src="${thumbnail}" alt="twitch thumbnail for ${responseJson.data[i].user_name}'s stream."></a>
       </li>`
     )};
   $('#twitchResults').removeClass('hidden');
+  $('#twitchNav').removeClass('hidden');
 };
 
 
@@ -164,11 +162,15 @@ function displayResults(responseJson) {
     $('#youtube-results-list').append(
       `<li class='wordwrap'><h3>${responseJson.items[i].snippet.title}</h3>
       <p>${responseJson.items[i].snippet.description}</p>
-      <a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target="_blank"><img src='${responseJson.items[i].snippet.thumbnails.default.url}'></a>
+      <a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target="_blank"><img src='${responseJson.items[i].snippet.thumbnails.default.url}' alt="Thumbnail image for video"></a>
       </li>`
     )};
   
   $('#youtubeResults').removeClass('hidden');
+  $('#youtubeNav').removeClass('hidden');
+  $('#footer').removeClass('hidden');
+  $('#topNav').removeClass('hidden');
+  $('#bottomNav').removeClass('hidden');
 };
 
 //this code makes the request to youtube api
@@ -182,7 +184,6 @@ function getYouTubeVideos(query, maxResults=20) {
   };
   const queryString = formatQueryParams(params);
   const url = searchURL + '?' + queryString;
-  console.log(url);
 
   
 
@@ -201,7 +202,6 @@ function getYouTubeVideos(query, maxResults=20) {
 
 //this code displays a readable set of items based on the request to the PriceChartingAPI
 function displayPrices(responseJson){
-    console.log(responseJson);
     
     $('#js-priceCharting-error-message').empty();
     $('#priceCharting-results-list').empty();
@@ -224,6 +224,7 @@ function displayPrices(responseJson){
       )
     };
     $('#priceChartingResults').removeClass('hidden');
+    $('#priceChartingNav').removeClass('hidden');
   }
 
     
@@ -255,9 +256,8 @@ function watchForm() {
     $('#search-term').removeClass('centered');
     postData(kURL, kOptions);
     getYouTubeVideos(searchTerm);
-//not entirely sure why, but the pricecharting error code was fussy, and this is the only place I could get the code to reliably rehide the column if a new search was entered.
+//not entirely sure why, but the pricecharting error code was fussy, and this is the only place I could get the code to reliably rehide the column if a new search was made.
     if (priceChartingResults.classList.contains('hidden') === false) {
-      console.log(priceChartingResults.classList.contains('hidden'));
       $(priceChartingResults).addClass('hidden');
     }
     

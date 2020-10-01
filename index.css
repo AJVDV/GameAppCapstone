@@ -4,7 +4,7 @@
   body {
     font-family: 'Roboto', sans-serif;
     text-align: center;
-    background-color: #F7C59F;
+    background-color: #7c968c;
   }
   
   button, input[type="text"] {
@@ -23,7 +23,7 @@
   }
 
   .resultsColumn {
-    width: 800px;
+    width: 280px;
     text-align: center;
     margin: auto;
   }
@@ -46,7 +46,7 @@
 
   
   .error-message {
-      color: #FF6B35;
+      color: #3a1744;
   }
   
   .hidden {
@@ -58,82 +58,87 @@
  }
 
   ul {
-    background: #004E89;
+    background: #003392;
     padding: 35px;
     border-radius: 25px;
     list-style-type: none;
   }
 
   ul li {
-  background: #1a659E;
+  background: #69a3ff;
   border-radius: 25px;
   padding: 25px;
   margin-bottom: 10px;
 }
 
 input[type=button], input[type=submit], input[type=reset] {
-  background-color: #EFEFD0;
+  background-color: #66c8ff;
   border: none;
   font-weight: bold;
   font-size: 25px;
-  color: #FF6B35;
+  color: #3a1744;
   padding: 16px 32px;
   text-decoration: none;
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 25px;
-  box-shadow: 2px 2px 5px #1a659E;
+  box-shadow: 2px 2px 5px #3a1744;
 }
 
 input[type=text] {
-  background-color: #EFEFD0;
-  color: #1A659E;
+  background-color: #66c8ff;
+  color: #003392;
   border-radius: 10px
 }
 
 label {
-  color: #1a659E;
+  color: #003392;
 }
 p {
-  color: #F7C59F;
+  color: #003392;
 }
 
 form p {
-  color: #004E89;
+  color: #3a1744;
 }
 h1 {
-  color: #FF6B35;
+  color: #003392;
 }
 
 h2 {
-  color: #004E89;
-  text-shadow: 2px 2px 5px #1a659E;
+  color: #003392;
+  text-shadow: 2px 2px 5px #66c8ff;
 }
 
 h3 {
-  color: #FF6B35;
+  color: #003392;
 }
 
 h4 {
-  color: #F7C59F;
+  color: #3a1744;
 }
 
 a:link {
-  color: #FF6B35
+  color: #3a1744;
 }
 
 a:visited{
-  color: #EFEFD0
+  color: #003392;
 }
 
 a:hover {
-  color: #F7C59F
+  color: #66c8ff;
 }
 
 a:active {
-  color: #004E89
+  color: #003392;
 }
 
+@media all and (min-width: 1000px) {
+  .resultsColumn {
+    width: 800px;
+  }
+}
   @media all and (min-width: 1300px) {
     .group{
       display: flex;
