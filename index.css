@@ -23,7 +23,7 @@
   }
 
   .resultsColumn {
-    width: 400px;
+    width: 800px;
     text-align: center;
     margin: auto;
   }
@@ -134,7 +134,7 @@ a:active {
   color: #004E89
 }
 
-  @media all and (min-width: 800px) {
+  @media all and (min-width: 1300px) {
     .group{
       display: flex;
       flex-direction: row;
@@ -145,6 +145,10 @@ a:active {
     .item{
       flex: 1;
       margin: 10px;
+    }
+
+    .resultsColumn {
+      width: 400px;
     }
   
   }
