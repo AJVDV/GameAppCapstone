@@ -4,7 +4,7 @@
   body {
     font-family: 'Roboto', sans-serif;
     text-align: center;
-    background-color: #EFEFD0;
+    background-color: #F7C59F;
   }
   
   button, input[type="text"] {
@@ -15,16 +15,33 @@
     cursor: pointer;
   }
   
+  .centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .resultsColumn {
+    width: 400px;
+    text-align: center;
+    margin: auto;
+  }
+
   .group{
     display: flex;
     flex-direction: Column;
-    margin-bottom: 50px;
+    margin-bottom: auto;
+    text-align: center;
   }
   
   
   .item{
     flex: 1;
-    margin: 10px;
+    margin: auto;
+    display: block;
+    text-align:center;
+    width: 80%;
   }
 
   
@@ -35,6 +52,10 @@
   .hidden {
     display: none;
   }
+
+  .wordwrap { 
+    overflow-wrap: break-word;
+ }
 
   ul {
     background: #004E89;
@@ -51,8 +72,10 @@
 }
 
 input[type=button], input[type=submit], input[type=reset] {
-  background-color: #F7C59F;
+  background-color: #EFEFD0;
   border: none;
+  font-weight: bold;
+  font-size: 25px;
   color: #FF6B35;
   padding: 16px 32px;
   text-decoration: none;
@@ -63,7 +86,7 @@ input[type=button], input[type=submit], input[type=reset] {
 }
 
 input[type=text] {
-  background-color: #F7C59F;
+  background-color: #EFEFD0;
   color: #1A659E;
   border-radius: 10px
 }
@@ -94,6 +117,23 @@ h3 {
 h4 {
   color: #F7C59F;
 }
+
+a:link {
+  color: #FF6B35
+}
+
+a:visited{
+  color: #EFEFD0
+}
+
+a:hover {
+  color: #F7C59F
+}
+
+a:active {
+  color: #004E89
+}
+
   @media all and (min-width: 800px) {
     .group{
       display: flex;

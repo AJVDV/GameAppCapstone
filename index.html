@@ -10,34 +10,36 @@
 </head>
 <body>
     <div class="container">
-        <h1>Video Game Quick Reference</h1>
+        
 
-        <form id="search-term" class ='textarea'>
+        <form id="search-term" class ='textarea centered'>
+            <h1>Video Game Quick Reference</h1>
             <p>Use this convenient app to check the most popular streams, recent videos, and prices for physical copies of games!</p>
             <p>Just type in the full name of your game, and hit go.</p>
             <label for="search-term">Game Name Here</label>
             <input type="text" name="search-term" id="js-search-term" required>
             <input type="submit" value="Go!">
         </form>
-
-        <p id="js-error-message" class="error-message"></p>
+        <p id="js-youtube-error-message" class="error-message"></p>
+        <p id="js-twitch-error-message" class="error-message"></p>
+        <p id="js-priceCharting-error-message" class="error-message"></p>
         <div class="group">
-            <div class="item">
-                <section id="twitch-results" class="hidden">
-                    <h2>Twitch results</h2>
-                    <ul id="twitch-results-list">
-                    </ul>
-                </section>
-            </div>
-            <div class="item">
-                <section id="youtube-results" class="hidden">
+            <div id="youtubeResults" class="youtube item hidden">
+                <section class="resultsColumn">
                     <h2>Youtube Results</h2>
                     <ul id="youtube-results-list">
                     </ul>
                 </section>
             </div>
-            <div class="item">
-                <section id="priceCharting-results" class="hidden">
+            <div id="twitchResults" class="twitch item hidden">
+                <section  class="resultsColumn">
+                    <h2>Twitch results</h2>
+                    <ul id="twitch-results-list">
+                    </ul>
+                </section>
+            </div>
+            <div id="priceChartingResults" class="priceCharting item hidden">
+                <section  class="resultsColumn">
                     <h2>PriceCharting Results</h2>
                     <ul id="priceCharting-results-list">
                     </ul>

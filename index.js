@@ -77,14 +77,20 @@ function getTwitchGame(searchTerm, OathKey) {
     })
     .then(responseJson => pullGameId(responseJson, OathKey))
     .catch(err => {
-      $('#js-error-message').text(`Something went wrong: ${err.message}`);
+      $('#js-twitch-error-message').text(`There were no results on Twitch, there may not be any live streams of this game currently, or the name may be mistyped`);
+      if (twitchResults.classList.contains('hidden') === false) {
+        console.log(twitchResults.classList.contains('hidden'));
+        $(twitchResults).addClass('hidden');
+      };
     });
     
 }
 
 //this portion of the code isolates the game ID from the response for use in the next function
 function pullGameId(responseJson, OathKey){
+  console.log(responseJson);
   const gameId = responseJson.data[0].id;
+  console.log(gameId);
   getTwitchStreams(gameId, OathKey);
 }
 
@@ -115,7 +121,7 @@ function getTwitchStreams(gameId, OathKey) {
     })
     .then(responseJson => displayStreams(responseJson))
     .catch(err => {
-      $('#js-error-message').text(`Something went wrong: ${err.message}`);
+      $('#js-youtube-error-message').text(`Something went wrong: ${err.message}`);
     });
     
 }
@@ -123,18 +129,19 @@ function getTwitchStreams(gameId, OathKey) {
 //takes the twitch api results and creates a readable/clickable set of results for the user to view
 function displayStreams(responseJson) {
   $('#twitch-results-list').empty();
-
+  $('#js-twitch-error-message').empty();
   for (let i = 0; i < responseJson.data.length; i++){
     let thumbnail = responseJson.data[i].thumbnail_url.replace('{width}', '225');
     thumbnail = thumbnail.replace('{height}', '150');
     $('#twitch-results-list').append(
-      `<li><h3>${responseJson.data[i].title}</h3>
+      `<li class='wordwrap'><h3>${responseJson.data[i].title}</h3>
       <p>${responseJson.data[i].user_name}</p>
       <a href='https://www.twitch.tv/${responseJson.data[i].user_name}'  target="_blank"><img src="${thumbnail}" alt="twitch thumbnail here"></a>
       </li>`
     )};
-  $('#twitch-results').removeClass('hidden');
+  $('#twitchResults').removeClass('hidden');
 };
+
 
 const apiKey = 'AIzaSyBVXbhD9fgVMUbCwEHCaglJNVoOPHrcIS8'; 
 const searchURL = 'https://www.googleapis.com/youtube/v3/search';
@@ -154,13 +161,13 @@ function displayResults(responseJson) {
 
   for (let i = 0; i < responseJson.items.length; i++){
     $('#youtube-results-list').append(
-      `<li><h3>${responseJson.items[i].snippet.title}</h3>
+      `<li class='wordwrap'><h3>${responseJson.items[i].snippet.title}</h3>
       <p>${responseJson.items[i].snippet.description}</p>
       <a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target="_blank"><img src='${responseJson.items[i].snippet.thumbnails.default.url}'></a>
       </li>`
     )};
   
-  $('#youtube-results').removeClass('hidden');
+  $('#youtubeResults').removeClass('hidden');
 };
 
 //this code makes the request to youtube api
@@ -187,29 +194,37 @@ function getYouTubeVideos(query, maxResults=20) {
     })
     .then(responseJson => displayResults(responseJson))
     .catch(err => {
-      $('#js-error-message').text(`Something went wrong: ${err.message}`);
+      $('#js-priceCharting-error-message').text(`Something went wrong: ${err.message}`);
     });
 }
 
 //this code displays a readable set of items based on the request to the PriceChartingAPI
 function displayPrices(responseJson){
+    console.log(responseJson);
     
+    $('#js-priceCharting-error-message').empty();
     $('#priceCharting-results-list').empty();
+    if (responseJson.products.length === 0) {
+      $('#js-priceCharting-error-message').text(`There were no PriceCharting results, likely there are no physical copies of this game, or the name was mistyped.`);
+    } else {
     for (let i = 0; i < responseJson.products.length; i++){
       let loosePrice = (responseJson.products[i]["loose-price"])/100;
       loosePrice = loosePrice.toFixed(2);
       let newPrice = (responseJson.products[i]["new-price"])/100;
       newPrice = newPrice.toFixed(2);
       $('#priceCharting-results-list').append(
-        `<li><h3>${responseJson.products[i]["product-name"]}</h3>
+        `<li class='wordwrap'><h3>${responseJson.products[i]["product-name"]}</h3>
         <h4>${responseJson.products[i]["console-name"]}</h4>
         <p>Used price for this game is around $${loosePrice}.</p>
         <p>New price for this game is around $${newPrice}.</p>
-        <p><a href='https://www.pricecharting.com/game/${responseJson.products[i].id}'>Check Detailed Pricing Here</a></p>
+        <p><a href='https://www.pricecharting.com/game/${responseJson.products[i].id}' target="_blank">Check Detailed Pricing Here</a></p>
         </li>`
-      )};
+      )
+    };
+    $('#priceChartingResults').removeClass('hidden');
+  }
 
-    $('#priceCharting-results').removeClass('hidden');
+    
 }
 
 //this set of code makes the api request to PriceCharting to retrieve info based on game name.
@@ -235,8 +250,14 @@ function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
+    $('#search-term').removeClass('centered');
     postData(kURL, kOptions);
     getYouTubeVideos(searchTerm);
+    if (priceChartingResults.classList.contains('hidden') === false) {
+      console.log(priceChartingResults.classList.contains('hidden'));
+      $(priceChartingResults).addClass('hidden');
+    }
+    
     getPrices(searchTerm);
   });
 }
